@@ -1,1 +1,2 @@
 # FullStackRedditClone
+Full Stack Reddit Clone built with MERN Stack (Mongo, Express, React, Node), utilizes tailwind for styling. Complete recreation of reddit including registration/login authentication, upvote, downvote, posts, comments, etc,
