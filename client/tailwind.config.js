@@ -7,6 +7,9 @@ module.exports = {
         redditDark: {
           DEFAULT: '#030303',
           brighter: '#272728',
+        },
+        redditBorder: {
+          DEFAULT: '#343536',
         }
       },
     },
