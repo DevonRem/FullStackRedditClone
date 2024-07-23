@@ -3,11 +3,29 @@ import Logo from './Dlogo.png';
 import Avatar from './defaultAvatar.png';
 import Button from './Button.js';
 import {BellIcon, ChatIcon, ChevronDownIcon, PlusIcon, SearchIcon, UserIcon, LoginIcon}from '@heroicons/react/outline';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 
 function Header() {
     const [userDropdownHidden, setUserDropdownHidden] = useState('hidden');
+
+    function useUserDropdown(ref) {
+      useEffect(() => {
+        function handleClickOutside(event) {
+          if (ref.current && !ref.current.contains(event.target)) {
+            setUserDropdownHidden('hidden');
+          }
+        }
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+          document.removeEventListener("mousedown", handleClickOutside);
+        };
+      }, [ref]);
+      
+    }
+    const userDropdownRef = useRef(null);
+    useUserDropdown(userDropdownRef);
     function toggleUserDropdown() {
       if (userDropdownHidden === 'hidden') {
         setUserDropdownHidden('block');
@@ -32,10 +50,12 @@ function Header() {
         <button className='px-2 py-1'><PlusIcon className='text-white w-6 h-6 m-1 mx-2' /></button>
     */}
 
-        <Button className='mx-3'>Login</Button>
+
+        <Button className='mr-3'>Login</Button>
         <Button className='mx-3'>Sign up</Button>
 
-        <button className='mt-1 flex rounded-md ml-4 border border-gray-700' onClick={() => toggleUserDropdown()}>
+
+        <button className='mt-1 flex rounded-md ml-4 border border-gray-700' onClick={() => toggleUserDropdown()} ref={userDropdownRef}>
           {/*<img src={Avatar} alt="" className='block w-8 h-8'></img>*/}
           <UserIcon className='bg-gray-600 w-8 h-8 text-gray-400 m-1'></UserIcon>
           <ChevronDownIcon className=' text-white w-5 h-5 m-1 mt-2'/>  

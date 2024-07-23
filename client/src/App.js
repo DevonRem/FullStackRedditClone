@@ -2,6 +2,7 @@ import './style.css';
 import Header from './Header.js';
 import SecondHeader from './SecondHeader';
 import PostForm from './PostForm';
+import AuthModal from './AuthModal';
 
 
 
@@ -9,8 +10,10 @@ function App() {
   return (
     <div>
       <Header></Header>
+      <AuthModal></AuthModal>
       <SecondHeader></SecondHeader>
       <PostForm></PostForm>
+
     <div className='px-6 bg-redditDark text-gray-400'>
       <div className='border border-redditBorder bg-redditDark-brighter p-2 rounded-md'>
         <h5 className='text-gray-500 text-sm'> Posted by u/test 3 days ago</h5>
