@@ -1,5 +1,6 @@
 import  Input  from "./Input.js";
 import {useState } from 'react';
+import axios from 'axios';
 
 
 function AuthModal() {
@@ -9,7 +10,9 @@ function AuthModal() {
     const [password, setPassword] = useState('');
 
     function register(e) {
-
+        e.preventDefault();
+        const data = {email, username, password}
+        axios.post('http://localhost:4000', data, {withCredentials:true});
     }
 
     return(
@@ -43,7 +46,7 @@ function AuthModal() {
                     <button className="border border-gray-300 bg-gray-300 mt-2 mb-1 rounded-full px-3 py-1 font-bold w-full text-black">Login</button>
                 )}
                 {modalType === 'register' && (
-                    <button className="border border-gray-300 bg-gray-300 mt-2 mb-1 rounded-full px-3 py-1 font-bold w-full text-black">Sign up</button>
+                    <button className="border border-gray-300 bg-gray-300 mt-2 mb-1 rounded-full px-3 py-1 font-bold w-full text-black" onClick={e=> register(e)}>Sign up</button>
                 )}
         
 
