@@ -3,7 +3,8 @@ import Logo from './Dlogo.png';
 import Avatar from './defaultAvatar.png';
 import Button from './Button.js';
 import {BellIcon, ChatIcon, ChevronDownIcon, PlusIcon, SearchIcon, UserIcon, LoginIcon}from '@heroicons/react/outline';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useContext } from 'react';
+import AuthModalContext from './AuthModalContext';
 
 
 function Header() {
@@ -35,6 +36,8 @@ function Header() {
       }
     }
 
+    const AuthModal = useContext(AuthModalContext);
+
     return (
         <header className=" w-full bg-redditDark p-2">
         <div className='mx-4 flex relative'>
@@ -51,18 +54,19 @@ function Header() {
     */}
 
 
-        <Button className='mr-3'>Login</Button>
-        <Button className='mx-3'>Sign up</Button>
+        <Button className='mr-3' onClick={() => AuthModal.setShow(true)}>Login</Button>
+        <Button className='mx-3' onClick={() => AuthModal.setShow(true)}>Sign up</Button>
 
 
         <button className='mt-1 flex rounded-md ml-4 border border-gray-700' onClick={() => toggleUserDropdown()} ref={userDropdownRef}>
           {/*<img src={Avatar} alt="" className='block w-8 h-8'></img>*/}
           <UserIcon className='bg-gray-600 w-8 h-8 text-gray-400 m-1'></UserIcon>
           <ChevronDownIcon className=' text-white w-5 h-5 m-1 mt-2'/>  
+          <div onClick={() => AuthModal.setShow(true)}className={'absolute right-0 top-8 bg-redditDark border border-gray-700 z-10 rounded-md text-gray-300 overflow-hidden ' + userDropdownHidden}>
+          <div onClick={() => AuthModal.setShow(true)} className='block flex w-50 py-2 px-3 hover:bg-gray-300 hover:text-black'><LoginIcon className='w-6 h-6 mr-2'/>Login / Sign up</div>
+          </div>
         </button>
-        <div className={'absolute right-0 top-8 bg-redditDark border border-gray-700 z-10 rounded-md text-gray-300 overflow-hidden ' + userDropdownHidden}>
-          <button className='block flex w-50 py-2 px-3 hover:bg-gray-300 hover:text-black'><LoginIcon className='w-6 h-6 mr-2'/>Login / Sign up</button>
-        </div>
+
         </div>
 
       </header>

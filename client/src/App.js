@@ -3,12 +3,17 @@ import Header from './Header.js';
 import SecondHeader from './SecondHeader';
 import PostForm from './PostForm';
 import AuthModal from './AuthModal';
+import AuthModalContext from './AuthModalContext';
+import { useState } from 'react';
 
 
 
 function App() {
+  const [showModal, setShowModal] = useState(false);
   return (
+    <AuthModalContext.Provider value={{show:showModal, setShow: setShowModal}}>
     <div>
+
       <Header></Header>
       <AuthModal></AuthModal>
       <SecondHeader></SecondHeader>
@@ -22,6 +27,7 @@ function App() {
       </div>
     </div>
     </div>
+    </AuthModalContext.Provider>
   );
 }
 

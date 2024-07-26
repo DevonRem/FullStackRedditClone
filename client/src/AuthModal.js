@@ -1,6 +1,7 @@
 import  Input  from "./Input.js";
-import {useState } from 'react';
+import {useState, useContext, useEffect, useRef } from 'react';
 import axios from 'axios';
+import AuthModalContext from "./AuthModalContext.js";
 
 
 function AuthModal() {
@@ -9,15 +10,42 @@ function AuthModal() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
+
+    const [userDropdownHidden, setUserDropdownHidden] = useState('hidden');
+
+    function useUserDropdown(ref) {
+      useEffect(() => {
+        function handleClickOutside(event) {
+          if (ref.current && !ref.current.contains(event.target)) {
+            modalContext.setShow(false);
+          }
+        }
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+          document.removeEventListener("mousedown", handleClickOutside);
+        };
+      }, [ref]);
+      
+    }
+    const userDropdownRef = useRef(null);
+    useUserDropdown(userDropdownRef);
+
+
+
+    const modalContext = useContext(AuthModalContext);
+
+    const visible = modalContext.show ? 'block' : 'hidden';
+
     function register(e) {
         e.preventDefault();
         const data = {email, username, password}
-        axios.post('http://localhost:4000', data, {withCredentials:true});
+        axios.post('http://localhost:4000/register', data, {withCredentials:true});
     }
 
     return(
-        <div className="w-screen h-screen fixed top-0 left-0 z-20 flex" style={{backgroundColor:`rgba(0,0,0,.8)`}}>
-            <div className="border border-redditDark-brighter w-3/4 sm:w-1/2 md:w-1/2 bg-redditDark p-5 text-gray-300 mx-auto self-center rounded-xl">
+        <div className={"w-screen h-screen fixed top-0 left-0 z-20 flex "+ visible }style={{backgroundColor:`rgba(0,0,0,.8)`}}>
+            <div className="border border-redditDark-brighter w-3/4 sm:w-1/2 md:w-1/2 bg-redditDark p-5 text-gray-300 mx-auto self-center rounded-xl" ref={userDropdownRef}>
                 {modalType === 'login' && (
                     <h1 className="text-2xl mb-3">Login</h1>
                 )}

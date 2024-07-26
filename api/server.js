@@ -7,11 +7,13 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import User from './models/User.js';
 
+const secret = 'secret';
 const app = express();
-app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 app.use(cors({
-    origin: 'localhost:3000',
+    origin: 'http://localhost:3000',
     credentials: true,
 }));
 
@@ -27,8 +29,15 @@ app.post('/register', (req, res) => {
     const {email, username} = req.body;
     const password = bcrypt.hashSync(req.body.password, 10);
     const user = new User({email, username, password});
-    user.save().then(()=> {
-        res.sendStatus(201);
+    user.save().then( user => {
+        jwt.sign({id:user._id}, secret, (err, token) => {
+            if(err) {
+                console.log(err);
+                res.sendStatus(500);
+            } else {
+                res.sendStatus(201).cookie('token', token).send();
+            }
+        });
     }).catch(e => {
         console.log(e);
         res.sendStatus(500);
