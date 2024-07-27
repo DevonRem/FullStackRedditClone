@@ -10,8 +10,10 @@ function AuthModal() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
+    const modalContext = useContext(AuthModalContext);
 
     const [userDropdownHidden, setUserDropdownHidden] = useState('hidden');
+
 
     function useUserDropdown(ref) {
       useEffect(() => {
@@ -33,7 +35,11 @@ function AuthModal() {
 
 
 
-    const modalContext = useContext(AuthModalContext);
+
+
+    if(modalContext.show && modalContext.show !== modalType) {
+        setModalType(modalContext.show);
+    }
 
     const visible = modalContext.show ? 'block' : 'hidden';
 
@@ -50,7 +56,7 @@ function AuthModal() {
                     <h1 className="text-2xl mb-3">Login</h1>
                 )}
                 {modalType === 'register' && (
-                    <h1 className="text-2xl mb-3">Register</h1>
+                    <h1 className="text-2xl mb-3">Sign up!</h1>
                 )}
 
                 {modalType === 'register' && (

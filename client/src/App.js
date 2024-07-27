@@ -4,14 +4,24 @@ import SecondHeader from './SecondHeader';
 import PostForm from './PostForm';
 import AuthModal from './AuthModal';
 import AuthModalContext from './AuthModalContext';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import UserContext from './UserContext';
 
 
 
 function App() {
   const [showModal, setShowModal] = useState(false);
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+    axios.get('http://localhost:4000/user', {withCredentials:true})
+    .then(response => setUser(response.data));
+  }, []);
+
   return (
     <AuthModalContext.Provider value={{show:showModal, setShow: setShowModal}}>
+      <UserContext.Provider value={{user}}>
     <div>
 
       <Header></Header>
@@ -27,6 +37,8 @@ function App() {
       </div>
     </div>
     </div>
+
+    </UserContext.Provider>
     </AuthModalContext.Provider>
   );
 }
