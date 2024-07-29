@@ -19,9 +19,14 @@ function App() {
     .then(response => setUser(response.data));
   }, []);
 
+  function logout() {
+    axios.post('http://localhost:4000/logout', {}, {withCredentials:true})
+    .then(() => setUser({}));
+  }
+
   return (
     <AuthModalContext.Provider value={{show:showModal, setShow: setShowModal}}>
-      <UserContext.Provider value={{user}}>
+      <UserContext.Provider value={{...user, logout, setUser}}>
     <div>
 
       <Header></Header>

@@ -2,6 +2,7 @@ import  Input  from "./Input.js";
 import {useState, useContext, useEffect, useRef } from 'react';
 import axios from 'axios';
 import AuthModalContext from "./AuthModalContext.js";
+import UserContext from "./UserContext.js";
 
 
 function AuthModal() {
@@ -11,6 +12,7 @@ function AuthModal() {
     const [password, setPassword] = useState('');
 
     const modalContext = useContext(AuthModalContext);
+    const user = useContext(UserContext);
 
     const [userDropdownHidden, setUserDropdownHidden] = useState('hidden');
 
@@ -36,17 +38,33 @@ function AuthModal() {
 
 
 
-
+    const visible = modalContext.show ? 'block' : 'hidden';
     if(modalContext.show && modalContext.show !== modalType) {
         setModalType(modalContext.show);
     }
 
-    const visible = modalContext.show ? 'block' : 'hidden';
+
 
     function register(e) {
         e.preventDefault();
         const data = {email, username, password}
-        axios.post('http://localhost:4000/register', data, {withCredentials:true});
+        axios.post('http://localhost:4000/register', data, {withCredentials:true})
+        .then(()=> {
+            user.setUser({username});
+            modalContext.setShow(false);
+            setEmail('');
+            setPassword('');
+            setUsername('');
+        });
+    }
+
+    function login() {
+        const data = {username, password};
+        axios.post('http://localhost:4000/login', data, {withCredentials:true})
+        .then(()=> {
+            modalContext.setShow(false);
+            user.setUser({username});
+        });
     }
 
     return(
@@ -77,7 +95,7 @@ function AuthModal() {
                 </label>
 
                 {modalType === 'login' && (
-                    <button className="border border-gray-300 bg-gray-300 mt-2 mb-1 rounded-full px-3 py-1 font-bold w-full text-black">Login</button>
+                    <button className="border border-gray-300 bg-gray-300 mt-2 mb-1 rounded-full px-3 py-1 font-bold w-full text-black" onClick={()=> login()}>Login</button>
                 )}
                 {modalType === 'register' && (
                     <button className="border border-gray-300 bg-gray-300 mt-2 mb-1 rounded-full px-3 py-1 font-bold w-full text-black" onClick={e=> register(e)}>Sign up</button>
@@ -86,13 +104,13 @@ function AuthModal() {
 
                 {modalType === 'login' && (
                     <div>
-                    New user? <button className='text-blue-600 mt-1' onClick={()=> setModalType('register')}>Sign Up!</button>
+                    New user? <button className='text-blue-600 mt-1' onClick={()=> modalContext.setShow('register')}>Sign Up!</button>
                     </div>
                 )}
 
                 {modalType === 'register' && (
                     <div>
-                    Already have an account? <button className='text-blue-600 mt-1' onClick={()=> setModalType('login')}>Login!</button>
+                    Already have an account? <button className='text-blue-600 mt-1' onClick={()=> modalContext.setShow('login')}>Login!</button>
                     </div>
                 )}                
 
