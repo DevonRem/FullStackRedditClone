@@ -6,6 +6,7 @@ import cors from 'cors';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import User from './models/User.js';
+import Comment from './models/Comment.js';
 
 const secret = 'secret';
 const app = express();
@@ -16,6 +17,7 @@ app.use(cors({
     origin: 'http://localhost:3000',
     credentials: true,
 }));
+
 
 const db = mongoose.connection;
 db.on('error', console.log);
@@ -80,6 +82,12 @@ app.post('/login', (req, res) => {
 
 app.post('/logout', (req, res) => {
     res.cookie('token', '').send();
+});
+
+app.get('/comments', (req, res) => {
+    Comment.find().then(comments => {
+        res.json(comments);
+    });
 });
 
 
