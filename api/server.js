@@ -46,19 +46,22 @@ app.post('/register', (req, res) => {
 });
 
 app.get('/user', (req, res) => {
-    const token = req.cookies.token;
+    if(req.cookies.token !== '') {
+        const token = req.cookies.token;
 
 
-    console.log({token});
-    const userInfo = jwt.verify(token, secret);
-            User.findById(userInfo.id).then(user=> {
-                res.json({username:user.username});
-            }).catch(err=> {
-                console.log(err);
-                res.sendStatus(500);
-            });
-
+        console.log({token});
+        const userInfo = jwt.verify(token, secret);
+                User.findById(userInfo.id).then(user=> {
+                    res.json({username:user.username});
+                }).catch(err=> {
+                    console.log(err);
+                    res.sendStatus(500);
+                });
     
+        
+    
+    }
 
 });
 
@@ -87,6 +90,13 @@ app.post('/logout', (req, res) => {
 app.get('/comments', (req, res) => {
     Comment.find().then(comments => {
         res.json(comments);
+    });
+});
+
+app.get('/comments/:id', (req, res) => {
+
+    Comment.findById(req.params.id).then(comment => {
+        res.json(comment);
     });
 });
 

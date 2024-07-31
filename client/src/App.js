@@ -11,6 +11,7 @@ import Post from './Post.js';
 import { Routes, Route, BrowserRouter as Router, } from 'react-router-dom';
 import PostListing from './PostListing';
 import Board from './Board';
+import CommentPage from './CommentPage';
 
 
 
@@ -38,10 +39,12 @@ function App() {
       <UserContext.Provider value={{...user, logout, setUser}}>
     <div>
 
-      <Header></Header>
+
       <Router>
+      <Header></Header>
         <Routes>
-          <Route path='/' element={<Board />} />
+          <Route exact path='/' element={<Board />} />
+          <Route exact path='/comment/:id' element={<CommentPage />} />
         </Routes>
       </Router>
       <AuthModal></AuthModal>

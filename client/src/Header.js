@@ -6,6 +6,7 @@ import {BellIcon, ChatIcon, ChevronDownIcon, PlusIcon, SearchIcon, UserIcon, Log
 import { useState, useEffect, useRef, useContext } from 'react';
 import AuthModalContext from './AuthModalContext';
 import UserContext from './UserContext';
+import { Link } from 'react-router-dom';
 
 
 function Header() {
@@ -44,7 +45,10 @@ function Header() {
     return (
         <header className=" w-full bg-redditDark p-2">
         <div className='mx-4 flex relative'>
-          <img src={Logo} alt="" className='w-8 h-8 mr-4 mt-1'/>
+          <Link to='/'>
+            <img src={Logo} alt="" className='w-8 h-8 mr-4 mt-1'/>
+          </Link>
+
           <form action='' className='bg-redditDark-brighter p-1 px-3 flex rounded-md border border-redditBorder mx-4 flex-grow'>
           <SearchIcon className="text-gray-300 h-6 w-6 mt-1"/>
           <input type='text' className='bg-redditDark-brighter text-sm p-1 pl-2 pr-0 block focus: outline-none text-white' placeholder='Search'></input>
