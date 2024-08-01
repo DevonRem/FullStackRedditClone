@@ -44,7 +44,7 @@ function App() {
       <Header></Header>
         <Routes>
           <Route exact path='/' element={<Board />} />
-          <Route exact path='/comment/:id' element={<CommentPage />} />
+          <Route exact path='/comments/:id' element={<CommentPage />} />
         </Routes>
       </Router>
       <AuthModal></AuthModal>

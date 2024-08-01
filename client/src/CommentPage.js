@@ -11,7 +11,7 @@ function CommentPage(props) {
     const [comment, setComment] = useState({});
 
     useEffect(()=> {
-        axios.get('http://localhost:4000/comment/'+{id})
+        axios.get('http://localhost:4000/comments/'+id)
         .then(response => setComment(response.data));
     },[]);
 

@@ -95,8 +95,8 @@ app.get('/comments', (req, res) => {
 
 app.get('/comments/:id', (req, res) => {
 
-    Comment.findById(req.params.id).then(comment => {
-        res.json(comment);
+    Comment.findById(req.params.id).then(comments => {
+        res.json(comments);
     });
 });
 
